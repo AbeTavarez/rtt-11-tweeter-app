@@ -1,14 +1,16 @@
 import { useState } from "react";
 import Tweet from "../Tweet";
+import CreateTweetForm from "../CreateTweetForm";
+
 import { v4 as uuidv4 } from 'uuid';
 import { data } from "../../data/data";
 
 import "./TweetsList.module.css";
-import CreateTweetForm from "../CreateTweetForm";
 
 function TweetsList() {
   const [tweets, setTweets] = useState(data);
 
+  // Create New Tweet
   const addTweet = (newTweet) => {
     const tweetDoc = {
         content: newTweet,
@@ -22,19 +24,30 @@ function TweetsList() {
     setTweets([tweetDoc, ...tweets ]);
   }
 
+  // Delete a Tweet
   const removeTweet = (tweetId) => {
     setTweets(tweets.filter(t => t.id !== tweetId));
   }
 
-  return (
-    <div>
-      <h2>TweetList</h2>
+  // Update Tweet
+  const updateTweet = (tweetId, newTweetContent) => {
+    setTweets(tweets.map(t => {
+      if (t.id === tweetId) {
+          return {
+            ...t,
+            content: newTweetContent,
+          }
+      } else return t;
+    }));
+  }
 
+  return (
+    <div className="mt-4">
       <CreateTweetForm addTweet={addTweet}/>
 
       <section>
         {tweets.map((item) => (
-          <Tweet tweet={item} key={item.id} removeTweet={removeTweet}/>
+          <Tweet tweet={item} key={item.id} removeTweet={removeTweet} updateTweet={updateTweet}/>
         ))}
       </section>
     </div>

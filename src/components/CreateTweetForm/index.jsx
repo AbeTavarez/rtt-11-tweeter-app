@@ -1,35 +1,48 @@
-import { useState } from "react";
-import PropTypes from 'prop-types';
+import { useState, useRef } from "react";
+import PropTypes from "prop-types";
 import styles from "./CreateTweetForm.module.css";
+import { Button, Form } from "react-bootstrap";
 
 function CreateTweetForm({ addTweet }) {
   const [content, setContent] = useState("");
+  const contentInputRef = useRef(null);
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    
+    if (contentInputRef.current.value === '') {
+      contentInputRef.current.focus();
+      // alert('Please fill this out');
+      return;
+    }
+
     addTweet(content);
-    setContent('')
+    setContent("");
   };
 
   return (
-    <form onSubmit={handleSubmit} className={styles.container}>
-      <label htmlFor="content">whats in you mind?</label>
+    <Form onSubmit={handleSubmit} className={styles.container}>
+      <Form.Label htmlFor="content">
+        <h4>whats in you mind?</h4>
+      </Form.Label>
 
-      <input
+      <Form.Control
+        className="mb-4"
         type="text"
         name="content"
         id="content"
         value={content}
         onChange={(e) => setContent(e.target.value)}
+        ref={contentInputRef}
       />
 
-      <input type="submit" value="Post" />
-    </form>
+      <Button type='submit'>Tweet</Button>
+    </Form>
   );
 }
 
 CreateTweetForm.propTypes = {
-  addTweet: PropTypes.func
-}
+  addTweet: PropTypes.func,
+};
 
 export default CreateTweetForm;
