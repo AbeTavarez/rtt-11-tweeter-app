@@ -14,13 +14,10 @@ function Tweet({ tweet, removeTweet, updateTweet }) {
       {/* MODAL  */}
       {showModal &&
         createPortal(
-          <UpdateTweetForm
-            tweet={tweet}
-            setShowModal={setShowModal}
-            updateTweet={updateTweet}
-          />,
+          <UpdateTweetForm onClose={() => setShowModal(false)} tweet={tweet} updateTweet={updateTweet}/>,
           document.body,
         )}
+
       <div className="border p-3 my-3">
         <div>@{tweet.username}</div>
         <div className="h6">{tweet.content}</div>
@@ -36,25 +33,20 @@ function Tweet({ tweet, removeTweet, updateTweet }) {
 
         <div className="mt-2">
           <Button
-            className="mx-2"
             variant="danger"
-            onClick={() => removeTweet(tweet.id)}
+            className="mx-2"
+            onClick={() => removeTweet(tweet._id)}
           >
             delete
           </Button>
-
-          <Button variant="info" onClick={() => setShowModal(true)}>
+          <Button
+            variant="info"
+            className="mx-2"
+            onClick={() => setShowModal(true)}
+          >
             update
           </Button>
         </div>
-
-        {/* {showModal && (
-          <UpdateTweetForm
-            tweet={tweet}
-            setShowModal={setShowModal}
-            updateTweet={updateTweet}
-          />
-        )} */}
       </div>
     </>
   );
