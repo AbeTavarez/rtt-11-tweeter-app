@@ -1,9 +1,7 @@
 import { Suspense, useState, useEffect } from "react";
-// import { v4 as uuidv4 } from "uuid";
-import { ErrorBoundary } from "react-error-boundary";
+// import { ErrorBoundary } from "react-error-boundary";
 import Tweet from "../Tweet";
 import CreateTweetForm from "../CreateTweetForm";
-// import { data } from "../../data/data";
 import axios from "axios";
 
 import "./TweetsList.module.css";
@@ -92,7 +90,7 @@ function TweetsList() {
     <div className="mt-4">
       <CreateTweetForm addTweet={addTweet} />
 
-      <ErrorBoundary fallback={<div>Error loading Tweets!</div>}>
+      {/* <ErrorBoundary fallback={<div>Error loading Tweets!</div>}> */}
         <Suspense fallback={<div>Loading...</div>}>
           <section>
             {tweets &&
@@ -106,7 +104,7 @@ function TweetsList() {
               ))}
           </section>
         </Suspense>
-      </ErrorBoundary>
+      {/* </ErrorBoundary> */}
     </div>
   );
 }
