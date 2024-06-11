@@ -12,8 +12,8 @@ import "./TweetsList.module.css";
 console.log(import.meta.env.MODE);
 const serverUrl =
   import.meta.env.MODE === "development"
-    ? "http://localhost:4000/tweets"
-    : "REPLACE_PROD_LINK";
+    ? "http://localhost:4000"
+    : "https://rtt-11-twitter-backend.onrender.com";
 
 
 function TweetsList() {
@@ -23,7 +23,7 @@ function TweetsList() {
   useEffect(() => {
     try {
       const fetchData = async () => {
-        const res = await axios.get(serverUrl);
+        const res = await axios.get(`${serverUrl}/tweets`);
         console.log(res.data);
         setTweets([...res.data]); // here the data is set to the state
       };
@@ -36,7 +36,7 @@ function TweetsList() {
   // addTweet will make a POST request and create a new tweet
   const addTweet = async (newTweet) => {
     try {
-      const res = await axios.post(serverUrl, {
+      const res = await axios.post(`${serverUrl}/tweets`, {
         newTweet,
         username: "abe123",
       });
@@ -50,7 +50,7 @@ function TweetsList() {
   // removeTweet will make a DELETE request and delete a tweet by the id
   const removeTweet = async (tweetId) => {
     try {
-      const res = await axios.delete(`${serverUrl}/${tweetId}`);
+      const res = await axios.delete(`${serverUrl}/tweets/${tweetId}`);
       // if request was 'ok' remove from app state
       if (res.status === 200) {
         setTweets(tweets.filter((t) => t._id !== tweetId));
@@ -64,7 +64,7 @@ function TweetsList() {
 
   const updateTweet = async (tweetId, newTweetContent) => {
     try {
-      const res = await axios.put(`${serverUrl}/${tweetId}`, {newTweetContent});
+      const res = await axios.put(`${serverUrl}/tweets/${tweetId}`, {newTweetContent});
 
       // if request was 'ok' remove from app state
       if (res.status === 200) {
